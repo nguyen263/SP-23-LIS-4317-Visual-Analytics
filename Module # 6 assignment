@@ -1,0 +1,56 @@
+# Set the working directory
+setwd("/Users/loannguyen/Documents/R files/LIS 4317 Visual Analytics")
+# Assign certain data to "data"
+data <- read.csv("age_at_mar.csv")
+# Display the first few rows of data
+head(data, 5)
+# Delete the first column
+data <- data[, -1]
+head(data, 3)
+# Calculate the number of elements and convert it into a data frame
+data <- as.data.frame(table(data))
+# Call "data" to see data
+data
+# In total, 5534
+# Calculate the frequency of data to ensure the total is correct
+sum(data$Freq)
+# Load the dplyr package to filter the data
+library(dplyr)
+data1 <- filter(data, data %in% c("10", "11", "12", "13", "14"))
+data1
+data1 <- sum(data1$Freq)
+data1
+data2 <- filter(data, data %in% c("15", "16", "17", "18", "19"))
+data2 <- sum(data2$Freq)
+data2
+data3 <- filter(data, data %in% c("20", "21", "22", "23", "24"))
+data3 <- sum(data3$Freq)
+data3
+data4 <- filter(data, data %in% c("25", "26", "27", "28", "29"))
+data4 <- sum(data4$Freq)
+data4
+data5 <- filter(data, data %in% c("30", "31", "32", "33", "34"))
+data5 <- sum(data5$Freq)
+data5
+data6 <- filter(data, data %in% c("35", "36", "37", "38", "39"))
+data6 <- sum(data6$Freq)
+data6
+data7 <- filter(data, data %in% c("40", "41", "42", "43", "44"))
+data7 <- sum(data7$Freq)
+data7
+# Assign the new vector to "data"
+data <- c(data1, data2, data3, data4, data5, data6, data7)
+# Create pie chart labels
+labels <- c("10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44")
+# Calculate the percentage of these elements for the pie chart
+percent <- round(data / sum(data) * 100)
+# Place a % next to the number
+percent <- paste(percent, "%", sep = "")
+# Set plot margins to the right size
+par(mar = c(1, 1, 1, 1))
+# Assign the colors for the pie chart to "colors"
+colors <- rainbow(length(percent))
+# Plot a pie chart
+pie(data, labels = percent, col = colors, main = "U.S. Marriage Age for Women")
+# Make pie chart legend (key)
+legend(x = 1.2, y = .2, labels, title = "Age (Years)", fill = colors, cex = 0.7, text.width = .15)
