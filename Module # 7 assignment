@@ -33,6 +33,6 @@ mean > median
 which(mtcars$disp > 3.29)
 # As we can see, observations 1 to 32 are outliers
 
-# I agree with Few's suggestions regarding outliers.
+# I agree with Few's recommendation regarding outliers.
 # According to the textbook, it stated: "Outliers in distributions are almost always found near one end or the other" (233).
 # As I discovered it in my graph, I realized that it provided important information, and I recognized that outliers affected the mean and caused it to move toward it.
