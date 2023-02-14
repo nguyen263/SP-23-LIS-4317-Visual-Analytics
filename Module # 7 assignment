@@ -26,6 +26,7 @@ mean > median
 # outlier
 # It is possible to consider displacement 400 bin to be an outlier
 # It may be assumed that a vehicle with a 400-displacement engine will be more powerful and perform better than those with smaller displacements or larger displacements above 400.
+
 # An outlier can be found differently using z-scores
 # z-score = 3.29 is considered outlier
 # Identify which observations appear above 3.29:
