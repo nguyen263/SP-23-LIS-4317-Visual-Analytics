@@ -11,7 +11,7 @@ colnames(data) <- c("mpg", "disp")
 head(data)
 # Plot the scatter plot
 ggplot(data, aes(disp, mpg)) + geom_point() + labs(title = "MPG vs. Displacement", x = "Displacement", y = "MPG") +
-  geom_smooth(method = "lm") + theme(plot.title = element_text(hjust = 0.5))
+  geom_text(aes(x = 400, y = 30, label = "Blue line = linear regression")) + geom_smooth(method = "lm") + theme(plot.title = element_text(hjust = 0.5))
 # As shown in the plot, displacement increases while mpg decreases, indicating a high negative correlation
 # Correlation assigned to r
 r <- cor(data)
