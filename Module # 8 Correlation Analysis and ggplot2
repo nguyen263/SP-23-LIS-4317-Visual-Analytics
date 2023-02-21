@@ -1,1 +1,40 @@
+# I was asked to perform a correlation or regression analysis using the mtcars dataset in R using ggplot2.
 
+# mtcars dataset loaded and first rows displayed
+head(mtcars)
+# Load ggplot2
+library(ggplot2)
+# Assign a dataframe of selected columns to "data"
+data <- data.frame(mtcars$mpg, mtcars$disp)
+# Rename the columns
+colnames(data) <- c("mpg", "disp")
+head(data)
+# Plot the scatter plot
+ggplot(data, aes(disp, mpg)) + geom_point() + labs(title = "MPG vs. Displacement", x = "Displacement", y = "MPG") +
+  geom_smooth(method = "lm") + theme(plot.title = element_text(hjust = 0.5))
+# As shown in the plot, displacement increases while mpg decreases, indicating a high negative correlation
+# Correlation assigned to r
+r <- cor(data)
+r
+# mpg and disp have a correlation coefficient of -0.848, close to -1, which is considered the perfect negative correlation and therefore supports the plot.
+library(corrplot)
+# Correlation matrix plot
+# mar = c(0,0,1,0) - Title margin
+corrplot(r, method = "number", title = "Matrix Plot of MPG and Displacement", mar = c(0,0,1,0))
+# Linear regression summary
+summary(lm(mpg ~ disp, data = data))
+# As can be seen from a summary of a linear regression model,
+# As shown in the residuals section, there was a minimum value of -4.892, a first quarter of -2.202, a median of -.963, a third quarter of 1.627, and a maximum value of 7.231.
+# Based on the coefficients section, we can see that:
+# the estimate of the intercept is 29.6 with a standard error of 1.23, a t-value of 24.070, and a p-value of < 2e-16.
+# Variable disp is estimated as -0.041 with a standard error of 0.005, a t-value of -8.747, and a p-value of 9.38e-10.
+# The residual standard error is 3.251 and has 30 degrees of freedom; multiple R^2 of .7183; adjusted R^2 of .709; and F-statistic of 76.51 with 1 and 30 degrees of freedom with a p-value of 9.38e-10.
+# Because the p-value of disp (9.38e-10) is greater than the significant p-value of .05. Therefore, there is no significant linear correlation between disp and mpg.
+
+# I agree with Few's recommendation regarding the fundamental characteristics of correlations essential for understanding.
+# According to my plot, these variables have a negative correlation but do not show significant regression.
+# My primary focus when plotting relationships is linearity and correlation.
+# Even if the line of best fit is positive or negative, I have always assumed it is statistically significant between these variables, but this plot proves otherwise.
+# Additionally, I agree with the following statement: "The stronger the correlation, the more precisely we can predict how much more one variable will increase or decrease in relation to specific increases or decreases in the other variable" (249).
+# It is easy to accurately predict a relationship by fitting a straight line between these variables.
+# Although some information is useless or meaningless, analyzing correlation and regression is worthwhile.
