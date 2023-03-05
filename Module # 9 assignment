@@ -1,1 +1,10 @@
-
+# Set the built-in dataset to "t"
+t <- Titanic
+# Dataframe conversion
+t <- data.frame(t)
+# Display the first few rows
+head(t)
+# Activate the ggplot2 package
+library(ggplot2)
+# Plot
+ggplot(t, aes(Class, Freq)) + geom_point(aes(color = Sex, size = Age, shape = Survived)) + labs(title = "Frequency of Titanic by Survived, Age, and Sex in the Class")
