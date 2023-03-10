@@ -1,165 +1,93 @@
-# Assign the readed imported assignment to "df"
-df <- read.csv("world_pop.csv")
-# last 3 rows displayed
-tail(df, 3)
-# Remove the first column
-df <- df[, -1]
-# Rename the column names
-colnames(df) <- c("Country", 1960:2020)
-# Remove the rows containing NA
-df <- df[complete.cases(df),]
-# Add a column with NA values named "Year"
-df$Year <- NA
-# Displaying headers
-colnames(df)
-# Activate the dplyr package
-library(dplyr)
-# Make the "Year" column the second column
-df <- df %>% relocate(Year, .after = Country)
-# Combines selected letters into a vector and assigns them to "patterns"
-patterns <- c("v", "u", "r", "c", "a")
-# "Country" of the df with variable "patterns" is filtered and assigned to "result"
-result <- subset(df, grepl(paste(patterns, collapse = "|"), df$Country, ignore.case = T))
-# Assign result to new dataframe "df2"
-df2 <- result
-patterns <- c("v", "u", "j", "a")
-result <- subset(df2, grepl(paste(patterns, collapse = "|"), df2$Country, ignore.case = T))
-df3 <- result
-
-# write the df3 in CSV format
-write.csv(df3, "world_pop_updated.csv", row.names = F)
-
-
-
-data <- read.csv("world_pop_updated.csv")
+# Activate AER package
+library(AER)
+# Load the dataset
+data(TeachingRatings)
+# Assign dataset to "data"
+data <- TeachingRatings
 # Displays the first 3 rows
 head(data, 3)
-colnames(data)[3:ncol(data)] <- c(1960:2020)
+library(stringr)
+# Each word is converted to upper case for the first letter, using str_to_title from stringr
+# Uppercase first letter of column names
+colnames(data) <- str_to_title(colnames(data))
+# Displaying headers
+colnames(data)
+# Rename some columns
+colnames(data)[4] <- "courseCredits"
+colnames(data)[5] <- "scoreBeauty"
+colnames(data)[6] <- "scoreEval"
+colnames(data)[7] <- "courseDivision"
+colnames(data)[8] <- "nativeEnglishspkr"
+colnames(data)[9] <- "Tenure-Track"
+colnames(data)[10] <- "Evaluators: students"
+colnames(data)[11] <- "evaluatorsTotal"
+colnames(data)[12] <- "profID"
+colnames(data)
+library(stringi)
+# Changes all matching characters to new ones
+data$Minority <- stri_replace_all_regex(data$Minority, c("yes", "no"), c("Yes", "No"), vectorize = F)
+data$nativeEnglishspkr <- stri_replace_all_regex(data$nativeEnglishspkr, c("yes", "no"), c("Yes", "No"), vectorize = F)
+data$`Tenure-Track` <- stri_replace_all_regex(data$`Tenure-Track`, c("yes", "no"), c("Yes", "No"), vectorize = F)
+data$Gender <- stri_replace_all_regex(data$Gender, c("female", "male"), c("F", "M"), vectorize = F)
+data$courseCredits <- stri_replace_all_regex(data$courseCredits, c("more", "single"), c("More", "Single"), vectorize = F)
+data$courseDivision <- stri_replace_all_regex(data$courseDivision, c("upper", "lower"), c("Upper", "Lower"), vectorize = F)
 head(data, 3)
-# Get the dataframe with the selected columns
-data <- data[, c(1:2, 33:ncol(data))]
-# List countries
-data$Country
-# Delete unwanted countries from the data
-data <- data[-c(186:188, 191:193, 2:9, 14:18, 20:27, 29:31, 33, 35:37, 39:46, 48:52, 54:58, 61:63, 66:67, 69, 71:77, 85, 88, 90:93, 96:99, 106:108,
-                110:116, 118:122, 125, 127:130, 132, 134, 136:138, 140:142, 143, 145:152, 154:160, 162:178, 170:172, 174:176, 178:181),]
-# Count of observations
-nrow(data)
-data$Country
-data <- data[-c(2, 6, 8, 21:22, 32:33),]
-nrow(data)
-data$Country
-data <- data[-c(8, 28, 32, 35, 9),]
-nrow(data)
-data$Country
-data <- data[-c(3, 8, 13:14, 28, 32, 36),]
-nrow(data)
-data$Country
-data <- data[-c(8, 14:15, 23:24),]
-nrow(data)
-# Row number reset
-rownames(data) <- NULL
-data$Country
-library(berryFunctions)
-# Adding new rows
-data <- insertRows(data, r = c(2:31), new = "Afghanistan")
-data <- insertRows(data, r = c(33:62), new = "Australia")
-data <- insertRows(data, r = c(64:93), new = "Azerbaijan")
-data <- insertRows(data, r = c(95:124), new = "Bulgaria")
-data <- insertRows(data, r = c(126:155), new = "Canada")
-data <- insertRows(data, r = c(157:186), new = "China")
-data <- insertRows(data, r = c(188:217), new = "France")
-data <- insertRows(data, r = c(219:248), new = "Germany")
-data <- insertRows(data, r = c(250:279), new = "Greenland")
-data <- insertRows(data, r = c(281:310), new = "Iceland")
-data <- insertRows(data, r = c(312:341), new = "Iran, Islamic Rep.")
-data <- insertRows(data, r = c(343:372), new = "Iraq")
-data <- insertRows(data, r = c(374:403), new = "Italy")
-data <- insertRows(data, r = c(405:434), new = "Japan")
-data <- insertRows(data, r = c(436:465), new = "Korea, Dem. People's Rep.")
-data <- insertRows(data, r = c(467:496), new = "Korea, Rep.")
-data <- insertRows(data, r = c(498:527), new = "Lebanon")
-data <- insertRows(data, r = c(529:558), new = "Lithuania")
-data <- insertRows(data, r = c(560:589), new = "Macao SAR, China")
-data <- insertRows(data, r = c(591:620), new = "New Zealand")
-data <- insertRows(data, r = c(622:651), new = "Pakistan")
-data <- insertRows(data, r = c(653:682), new = "Poland")
-data <- insertRows(data, r = c(684:713), new = "Russian Federation")
-data <- insertRows(data, r = c(715:744), new = "Singapore")
-data <- insertRows(data, r = c(746:775), new = "Ukraine")
-data <- insertRows(data, r = c(777:806), new = "United Arab Emirates")
-data <- insertRows(data, r = c(808:837), new = "United Kingdom")
-data <- insertRows(data, r = c(839:868), new = "United States")
-data <- insertRows(data, r = c(870:899), new = "Venezuela, RB")
-data <- insertRows(data, r = c(901:930), new = "Vietnam")
-# Input years 1990 - 2020 into rows of "Year"
-data$Year[c(1:31, 32:62, 63:93, 94:124, 125:155, 156:186, 187:217, 218:248, 249:279, 280:310, 311:341, 342:372,
-            373:403, 404:434, 435:465, 466:496, 497:527, 528:558, 559:589, 590:620, 621:651, 652:682, 683:713, 714:744,
-            745:775, 776:806, 807:837, 838:868, 869:899, 900:930)] <- paste(1990:2020)
-data$Pop <- NA
-library(dplyr)
-data <- data %>% relocate(Pop, .after = Year)
-# Transpose the values and insert them into rows corresponding to countries
-a <- t(data[1, c(4:ncol(data))])
-data$Pop[1:31] <- a
-b <- t(data[32, c(4:ncol(data))])
-data$Pop[32:62] <- b
-c <- t(data[63, c(4:ncol(data))])
-data$Pop[63:93] <- c
-d <-  t(data[94, c(4:ncol(data))])
-data$Pop[94:124] <- d
-e <- t(data[125, c(4:ncol(data))])
-data$Pop[125:155] <- e
-f <- t(data[156, c(4:ncol(data))])
-data$Pop[156:186] <- f
-g <- t(data[187, c(4:ncol(data))])
-data$Pop[187:217] <- g
-h <- t(data[218, c(4:ncol(data))])
-data$Pop[218:248] <- h
-i <- t(data[249, c(4:ncol(data))])
-data$Pop[249:279] <- i
-j <- t(data[280, c(4:ncol(data))])
-data$Pop[280:310] <- j
-k <- t(data[311, c(4:ncol(data))])
-data$Pop[311:341] <- k
-l <- t(data[342, c(4:ncol(data))])
-data$Pop[342:372] <- l
-m <- t(data[373, c(4:ncol(data))])
-data$Pop[373:403] <- m
-n <-  t(data[404, c(4:ncol(data))])
-data$Pop[404:434] <- n
-o <- t(data[435, c(4:ncol(data))])
-data$Pop[435:465] <- o
-p <- t(data[466, c(4:ncol(data))])
-data$Pop[466:496] <- p
-q <- t(data[497, c(4:ncol(data))])
-data$Pop[497:527] <- q
-r <- t(data[528, c(4:ncol(data))])
-data$Pop[528:558] <- r
-s <- t(data[559, c(4:ncol(data))])
-data$Pop[559:589] <- s
-t <- t(data[590, c(4:ncol(data))])
-data$Pop[590:620] <- t
-u <- t(data[621, c(4:ncol(data))])
-data$Pop[621:651] <- u
-v <- t(data[652, c(4:ncol(data))])
-data$Pop[652:682] <- v
-w <- t(data[683, c(4:ncol(data))])
-data$Pop[683:713] <- w
-x <- t(data[714, c(4:ncol(data))])
-data$Pop[714:744] <- x
-y <- t(data[745, c(4:ncol(data))])
-data$Pop[745:775] <- y
-z <- t(data[776, c(4:ncol(data))])
-data$Pop[776:806] <- z
-aA <- t(data[807, c(4:ncol(data))])
-data$Pop[807:837] <- aA
-aB <- t(data[838, c(4:ncol(data))])
-data$Pop[838:868] <- aB
-aC <- t(data[869, c(4:ncol(data))])
-data$Pop[869:899] <- aC
-aD <- t(data[900, c(4:ncol(data))])
-data$Pop[900:930] <- aD
-data <- data[-931, -c(4:ncol(data))]
 
-write.csv(data, "world_pop_updated.csv", row.names = F)
+# write the data in CSV format
+write.csv(data, "TeachingRatings_updated.csv", row.names = F)
+
+
+# Creating a linear regression model
+lm <- lm(scoreEval ~ scoreBeauty, data)
+# Using summary(), you can get residual standard error, multiple R-squared, adjusted R-squared, and F-statistic of lm()
+summary(lm)
+# Predict the values based on the predictor variable
+predicted <- predict(lm, newdata = data)
+# To see the predicted values, call "predicted"
+predicted
+# round values to one decimal place in a new column named "Predicted_scoreEval"
+data$Predicted_scoreEval <- round(predicted, 1)
+head(data, 3)
+colnames(data)[6] <- "Actual_scoreEval"
+library(dplyr)
+# Place the "Predicted_scoreEval" column at the specified location
+data <- data %>% relocate(Predicted_scoreEval, .before = Actual_scoreEval)
+head(data, 3)
+# Identify whether the prediction is "correct" or "wrong"
+data$Correct <- ifelse(data$Actual_scoreEval == data$Predicted_scoreEval, "Correct", "Incorrect")
+data <- data %>% relocate(Correct, .after = Actual_scoreEval)
+head(data, 3)
+library(caret)
+# Factorize some columns
+data$Actual_scoreEval <- factor(data$Actual_scoreEval)
+data$Predicted_scoreEval <- factor(data$Predicted_scoreEval)
+# Using a confusion matrix, calculate the percent of correct cases
+confusion_mat <- confusionMatrix(data = data$Predicted_scoreEval, reference = data$Actual_scoreEval)
+confusion_mat
+library(scales)
+percent(confusion_mat$overall, .01)
+
+write.csv(data, "TeachingRatings with Predicted Eval_updated.csv", row.names = F)
+
+
+
+# Creating a new dataframe that contains the data of variables
+df <- data.frame(data$Age, data$scoreBeauty, data$Actual_scoreEval, data$Predicted_scoreEval)
+colnames(df) <- c("Age", "scoreBeauty", "Actual_scoreEval", "Predicted_scoreEval")
+head(df, 3)
+# Display the data structure,
+# including information about the observations and variables,
+# along with additional information such as the name of the columns, the class of each column, and a few of their initial observations
+str(df)
+# Numerical conversion
+df$Age <- as.numeric(df$Age)
+df$scoreBeauty <- as.numeric(df$scoreBeauty)
+df$Actual_scoreEval <- as.numeric(df$Actual_scoreEval)
+df$Predicted_scoreEval <- as.numeric(df$Predicted_scoreEval)
+# Create a correlation and assign it to "r"
+r <- cor(df)
+library(corrplot)
+# Correlation matrix plot
+# mar = c(0,0,1,0) - Title margin
+corrplot(r, type = "upper", method = "number", title = "Matrix Plot of Age, Beauty Score, Evaluation Score, and Predicted Evaluation Score",
+         mar = c(0,0,1,0))
